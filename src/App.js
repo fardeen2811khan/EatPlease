@@ -11,16 +11,20 @@ import Signup from './screens/Signup.js';
 import '../node_modules/bootstrap-dark-5/dist/css/bootstrap-dark.min.css'
 import '../node_modules/bootstrap/dist/js/bootstrap.bundle'
 import '../node_modules/bootstrap/dist/js/bootstrap.bundle.js'
+import { CartProvider } from './components/ContextReducer.js';
+import Cart from './screens/Cart.js';
 
 function App() {
   return (
-    <Router>
-   <Routes>
-    <Route path="/" element={<Home/>}></Route>
-    <Route path="/login" element={<Login/>}></Route>
-    <Route path="/signup" element={<Signup/>}></Route>
-   </Routes>
-   </Router>
+    <CartProvider><Router>
+    <Routes>
+     <Route path="/" element={<Home/>}></Route>
+     <Route path="/login" element={<Login/>}></Route>
+     <Route path="/signup" element={<Signup/>}></Route>
+    
+    </Routes>
+    </Router></CartProvider>
+    
    
   );
 }
