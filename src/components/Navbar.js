@@ -3,8 +3,10 @@ import { Link,useNavigate } from "react-router-dom";
 import Badge from 'react-bootstrap/Badge';
 import Cart from './../screens/Cart';
 import Modal from './../Modal';
+import { useCart } from "./ContextReducer";
 
 function Navbar() {
+  let data=useCart();
   const [cartView, setCartView] = useState(false)
   const navigate=useNavigate();
   const handlelogout=()=>{
@@ -45,7 +47,7 @@ function Navbar() {
                   <Link
                     className="nav-link active fs-5"
                     aria-current="page"
-                    to="/"
+                    to="/myOrder"
                   >
                     My Order
                   </Link>
@@ -71,8 +73,8 @@ function Navbar() {
                     Log Out
                   </Link>
                   <div className="btn bg-white text-success mx-2 " onClick={()=>{setCartView(true)}}>
-                                    
-                                    Cart
+                               <Badge pill-bg="danger">{data.length}</Badge>    
+                                    {" "}Cart
                                 </div>
                   {cartView ? <Modal onClose={() => setCartView(false)}><Cart></Cart></Modal> : ""}
             </div>}

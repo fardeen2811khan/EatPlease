@@ -1,10 +1,11 @@
 const express = require('express')
+require('dotenv').config();
 const router = express.Router();
 const UserSchema = require('../models/UserSchema');
 const bcrypt=require('bcryptjs')
 const {body,validationResult}=require("express-validator");
 const jwt=require('jsonwebtoken');
-const jwtSecretKey="hahahahahahahaha"
+const jwtSecretKey=process.env.JWT_SECRET
 router.post("/createuser", [body('name','invaid name').isLength({min:5}),body('email','invalid email').isEmail(),body('password','inavlid password').isLength({min:5})], async (req, res) => {
 
     

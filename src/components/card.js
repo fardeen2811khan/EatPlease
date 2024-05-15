@@ -4,24 +4,52 @@ import { useDispatchCart, useCart } from './ContextReducer';
 function Card(props) {
   const priceRef = useRef();
   const dispatch = useDispatchCart();
-  // console.log('dispatch:', dispatch); // Add this line to see what dispatch is
+   //console.log('dispatch:', dispatch); // Add this line to see what dispatch is
 
   const data = useCart();
   // console.log('data:', data); // Add this line to see what data is
 
   const options = props.options;
   const priceOptions = Object.keys(options);
+  // console.log("jbfhbfv",priceOptions)
   const [qty, setqty] = useState(1);
   const [size, setsize] = useState("");
-
-  const handleAddToCart = async () => {
-    await dispatch({ type: "ADD", id: props.fooditems._id, name: props.fooditems.name, price: props.finalPrice, qty: qty, size: size });
-    // console.log(data);
-  }
+  // console.log("chbhvcb",parseInt(options[size]));  
   let finalPrice = qty * parseInt(options[size]);  
   useEffect(() => {
     setsize(priceRef.current.value)
   }, [])
+  const handleAddToCart = async () => {
+
+    let food = []
+    for (const item of data) {
+      if (item.id === props.fooditems._id) {
+        food = item;
+
+        break;
+      }
+    }
+
+    if (food !== []) {
+      if (food.size === size) {
+        await dispatch({ type: "UPDATE", id: props.fooditems._id, price: finalPrice, qty: qty })
+        return
+      }
+      else if (food.size !== size) {
+        await dispatch({ type: "ADD", id: props.fooditems._id, name: props.fooditems.name, price: finalPrice, qty: qty, size: size,img: props.fooditems.img })
+        console.log("Size different so simply ADD one more to the list")
+        return
+      }
+      return
+    }
+
+    console.log(props,size)
+    await dispatch({ type: "ADD", id: props.fooditems._id, name: props.fooditems.name, price: finalPrice, qty: qty, size: size });
+     
+    
+  }
+  
+  
   return (
 
     <div>
